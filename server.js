@@ -2,7 +2,26 @@ const http = require('http')
 const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } = require('./controllers/productController')
 
 const server = http.createServer((req, res) => {
-    if(req.url === '/api/products' && req.method === 'GET') {
+
+    if (req.url === "/" && req.method === "GET") {
+        res.writeHead(200, { "Content-Type": "application/json" });
+	const routes = {
+	    GET:  [ "/", "/api/health", "/api/products", "/api/products/:id" ],
+	    POST: [ "/api/products" ],
+	    PUT:  [ "/api/products/:id" ],
+	    DELETE: [ "/api/products/:id" ]
+	}
+        res.end(JSON.stringify(routes));
+    }
+    else if (req.url === "/api/health" && req.method === "GET") {
+        res.writeHead(200, { "Content-Type": "application/json" });
+        const stat = {
+            uptime: process.uptime(),
+            timestamp: Date.now(),
+        };
+        res.end(JSON.stringify(stat));
+    }
+    else if(req.url === '/api/products' && req.method === 'GET') {
         getProducts(req, res)
     } else if(req.url.match(/\/api\/products\/\w+/) && req.method === 'GET') {
         const id = req.url.split('/')[3]
