@@ -17,7 +17,7 @@ clobber:
 run:
 	npm run start
 
-package:
+package:	build
 	podman build --squash -t vnra:$(VERSION) .
 	podman tag vnra:$(VERSION) vnra:latest
 	@echo 'podman rmi $$(podman images -a | grep none | awk '{print \$$3}')'
