@@ -8,7 +8,6 @@ version:
 
 build:	version
 	npm install
-	npm ci --only=production
 
 clobber:
 	podman rmi vnra:$(VERSION)
@@ -18,6 +17,7 @@ run:
 	npm run start
 
 package:	build
+	npm ci --only=production
 	podman build --squash -t vnra:$(VERSION) .
 	podman tag vnra:$(VERSION) vnra:latest
 	@echo 'podman rmi $$(podman images -a | grep none | awk '{print \$$3}')'
@@ -25,3 +25,5 @@ package:	build
 docker-run:
 	podman run -it --rm -p 8080:8080 --name vnra vnra:$(VERSION)
 
+registry-push:	package
+	podman push --tls-verify=false vnra:${VERSION} devhost:5000/foo/vnra:${VERSION}
