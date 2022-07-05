@@ -1,3 +1,5 @@
+VERSION=0.0.2
+
 all:
 	npm install
 	npm ci --only=production
@@ -10,9 +12,9 @@ run:
 	npm run start
 
 package:
-	podman build --squash -t vanilla-node-rest-api:0.0.1 .
-	@echo "podman rmi \$(podman images -a | grep none | awk '{print $3}')"
+	podman build --squash -t vanilla-node-rest-api:$(VERSION) .
+	@echo 'podman rmi $$(podman images -a | grep none | awk '{print $3}')'
 
 docker-run:
-	podman run -it --rm -p 8080:5000 --name vnra vanilla-node-rest-api
+	podman run -it --rm -p 8080:8080 --name vnra vanilla-node-rest-api:$(VERSION)
 
