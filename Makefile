@@ -13,7 +13,7 @@ run:
 
 package:
 	podman build --squash -t vanilla-node-rest-api:$(VERSION) .
-	@echo 'podman rmi $$(podman images -a | grep none | awk '{print $3}')'
+	@echo 'podman rmi $$(podman images -a | grep none | awk '{print \$$3}')'
 
 docker-run:
 	podman run -it --rm -p 8080:8080 --name vnra vanilla-node-rest-api:$(VERSION)
