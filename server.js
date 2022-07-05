@@ -1,8 +1,12 @@
 const http = require('http')
 const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } = require('./controllers/productController')
 var ip = require("ip")
+var reqs = 0
 
 const server = http.createServer((req, res) => {
+
+    reqs += 1
+    console.log(Date() + ": #" + reqs + "  " + req.method + " " + req.url + " " + JSON.stringify(req.headers))
 
     if (req.url === "/" && req.method === "GET") {
         res.writeHead(200, { "Content-Type": "application/json" });
@@ -20,6 +24,7 @@ const server = http.createServer((req, res) => {
 	    ip: ip.address(),
             uptime: process.uptime(),
             timestamp: Date.now(),
+	    requests: reqs
         };
         res.end(JSON.stringify(stat));
     }
