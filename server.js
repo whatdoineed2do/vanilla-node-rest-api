@@ -12,19 +12,20 @@ const server = http.createServer((req, res) => {
     if (req.url === "/" && req.method === "GET") {
         res.writeHead(200, { "Content-Type": "application/json" });
 	const routes = {
-	    GET:  [ "/", "/api/health", "/api/products", "/api/products/:id" ],
+	    GET:  [ "/", "/api/status", "/api/products", "/api/products/:id" ],
 	    POST: [ "/api/products" ],
 	    PUT:  [ "/api/products/:id" ],
 	    DELETE: [ "/api/products/:id" ]
 	}
         res.end(JSON.stringify(routes));
     }
-    else if (req.url === "/api/health" && req.method === "GET") {
+    else if (req.url === "/api/status" && req.method === "GET") {
         res.writeHead(200, { "Content-Type": "application/json" });
         const stat = {
 	    ip: ip.address(),
             uptime: process.uptime(),
             timestamp: Date.now(),
+	    version: version.ver,
 	    requests: reqs
         };
         res.end(JSON.stringify(stat));
