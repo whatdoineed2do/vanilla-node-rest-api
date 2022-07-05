@@ -1,3 +1,4 @@
+const version = require('./version')
 const http = require('http')
 const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } = require('./controllers/productController')
 var ip = require("ip")
@@ -49,6 +50,6 @@ const server = http.createServer((req, res) => {
 
 const PORT =  process.env.PORT || 8080
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+server.listen(PORT, () => console.log(`Server ` + version.ver + ` running on port ${PORT}`))
 
 module.exports = server;
