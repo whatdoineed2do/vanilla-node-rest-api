@@ -1,0 +1,8 @@
+apiVersion: v2
+name: vnra
+description: Vanilla Node REST api service in K8
+type: application
+
+version: 0.0.1
+
+appVersion: "PACKAGE_VERSION"

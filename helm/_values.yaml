@@ -1,0 +1,10 @@
+replicaCount: 1
+
+image:
+  repository: devhost:5000/foo
+  pullPolicy: IfNotPresent
+  tag: "PACKAGE_VERSION"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1

@@ -1,3 +1,5 @@
 node_modules/
 version.js
+helm/Chart.yaml
+helm/values.yaml
 *.swp
