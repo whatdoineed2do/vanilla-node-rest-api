@@ -1,5 +1,6 @@
-node_modules/
-version.js
-helm/Chart.yaml
-helm/values.yaml
+src/node_modules/
+src/version.js
+src/package-lock.json
+openshift/helm/Chart.yaml
+openshift/helm/values.yaml
 *.swp

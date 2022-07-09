@@ -4,7 +4,7 @@ WORKDIR /app
 
 # build outside of docker packaging
 # npm ci --only=production
-COPY . .
+COPY src .
 
 EXPOSE 8080
 CMD node server.js
