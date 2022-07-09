@@ -1,0 +1,59 @@
+apiVersion: apps.openshift.io/v1
+kind: List
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: vnra
+  spec:
+    ports:
+    - port: 8080
+      targetPort: 8080
+    selector:
+      deploymentconfig: vnra
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    name: vnra
+    labels:
+      app: vnra
+  spec:
+    replicas: 1
+    selector:
+      deploymentconfig: vnra
+    strategy:
+      # We set the type of strategy to Recreate, which means that it will be scaled down prior to being scaled up
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          deploymentconfig: vnra
+          app: vnra
+      spec:
+        restartPolicy: Always
+        containers:
+        - image: devhost:5000/foo/vnra:66f793b
+          name: vnra-container
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+            name: http
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /api/status
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+    triggers:
+    - type: ConfigChange
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    name: vnra
+  spec:
+    to:
+      kind: Service
+      name: vnra
